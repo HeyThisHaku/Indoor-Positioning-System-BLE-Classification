@@ -46,8 +46,8 @@ If you use this dataset or code in your research, please cite our paper:
 ```bibtex
 @article{ble_attendance_2026,
   title={A BLE-Based Fine-Grained Attendance System via Relational RSSI Modeling and Discrete Location Classification},
-  author={[Your Name/Authors]},
-  journal={[Journal/Conference Name]},
+  % author={[Place Holder]},
+  % journal={[Place Holder]},
   year={2026}
 }
 ```
