@@ -1,0 +1,13 @@
+# Ignore Visual Evaluation folders
+Visual_Evaluation/
+**/Visual_Evaluation/
+
+# Ignore Joblib files
+*.joblib
+
+# Standard python & jupyter ignores
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+env/

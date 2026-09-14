@@ -1,0 +1,33 @@
+import os, pandas as pd, numpy as np, joblib
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import KNeighborsClassifier
+
+feat_file = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'Main_Data', 'ips_dataset_features_v2.csv'))
+model_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'Model_Prediction'))
+
+df = pd.read_csv(feat_file)
+def get_label(table):
+    if table <= 20: z = table if table <= 10 else table - 10
+    else: z = (table - 10) if table <= 30 else (table - 20)
+    return f"Zone {z}"
+
+df['target'] = df['Table'].apply(get_label)
+
+feature_cols = [c for c in df.columns if c not in ('Table', 'Side', 'Sample', 'Zone', 'target')]
+df['Row'] = df.groupby(['Table', 'Side']).cumcount()
+df['Total'] = df.groupby(['Table', 'Side'])['Sample'].transform('count')
+train_mask = (df['Row'] < df['Total'] * 0.8)
+
+scaler = StandardScaler()
+X_train = scaler.fit_transform(df.loc[train_mask, feature_cols])
+y_train = df.loc[train_mask, 'target']
+
+k_val, p_val = 49, 2
+
+wknn = KNeighborsClassifier(n_neighbors=k_val, weights='distance', p=p_val)
+wknn.fit(X_train, y_train)
+
+os.makedirs(model_dir, exist_ok=True)
+joblib.dump(wknn, os.path.join(model_dir, 'model_wknn.joblib'))
+joblib.dump(scaler, os.path.join(model_dir, 'scaler_wknn.joblib'))
+print("WKNN Model trained and saved!")
