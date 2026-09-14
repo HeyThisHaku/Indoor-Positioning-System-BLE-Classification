@@ -11,10 +11,10 @@ def get_label(table):
         rem = table % 10
         is_right = (1 <= rem <= 5)
         is_front = (table <= 20)
-        if is_right and is_front: return "1"
-        elif not is_right and is_front: return "2"
-        elif is_right and not is_front: return "3"
-        else: return "4"
+        if is_right and is_front: return "Right Front"
+        elif not is_right and is_front: return "Left Front"
+        elif is_right and not is_front: return "Right Back"
+        else: return "Left Back"
     elif "Label_4" == "Label_8":
         return f"Zone {(table - 1) // 5 + 1}"
     elif "Label_4" == "Label_20":
